@@ -1,0 +1,40 @@
+{
+	"name": "outstand-term-selector",
+	"version": "1.0.0",
+	"description": "Use the hierarchical (checkbox tree) term selector for non-hierarchical taxonomies.",
+	"contributors": [
+		{
+			"name": "Sérgio Santos",
+			"homepage": "https://s3rgiosan.dev"
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pixelalbatross/outstand-term-selector"
+	},
+	"license": "GPL-3.0-or-later",
+	"scripts": {
+		"start": "wp-scripts start",
+		"build": "wp-scripts build",
+		"packages-update": "wp-scripts packages-update",
+		"lint:js": "wp-scripts lint-js",
+		"lint:js:fix": "wp-scripts lint-js --fix",
+		"format": "wp-scripts format",
+		"wp-env": "wp-env",
+		"wp-env:clean": "wp-env clean all",
+		"test:setup": "npm run wp-env start",
+		"test:unit": "wp-env run tests-cli --env-cwd='wp-content/plugins/outstand-term-selector' vendor/bin/phpunit --testsuite=default",
+		"test:js": "wp-scripts test-unit-js"
+	},
+	"engines": {
+		"node": ">=20.0.0",
+		"npm": ">=9.0.0"
+	},
+	"devDependencies": {
+		"@wordpress/env": "^10.39.0",
+		"@wordpress/scripts": "^30.12.0"
+	},
+	"overrides": {
+		"typescript": "^5.9.0"
+	}
+}

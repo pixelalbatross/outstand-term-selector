@@ -1,0 +1,1 @@
+(()=>{"use strict";const o=window.wp.editor,e=window.wp.hooks,t=window.ReactJSXRuntime,s=window.outstandTermSelector||{},i=Array.isArray(s.taxonomies)?s.taxonomies:[];i.length&&(0,e.addFilter)("editor.PostTaxonomyType","outstand/term-selector",e=>s=>i.includes(s.slug)?(0,t.jsx)(o.PostTaxonomiesHierarchicalTermSelector,{...s}):(0,t.jsx)(e,{...s}))})();

@@ -6,7 +6,7 @@ class Assets extends BaseModule {
 	use GetAssetInfo;
 
 	/**
-	 * Script handle.
+	 * Script and style handle.
 	 *
 	 * @var string
 	 */
@@ -41,7 +41,7 @@ class Assets extends BaseModule {
 	}
 
 	/**
-	 * Enqueue the editor bundle.
+	 * Enqueue the editor bundle and its stylesheet.
 	 *
 	 * @return void
 	 */
@@ -61,6 +61,15 @@ class Assets extends BaseModule {
 			$this->get_asset_info( 'editor', 'version' ),
 			true
 		);
+
+		wp_enqueue_style(
+			self::HANDLE,
+			OUTSTAND_TERM_SELECTOR_DIST_URL . 'js/editor.css',
+			[],
+			$this->get_asset_info( 'editor', 'version' )
+		);
+
+		wp_style_add_data( self::HANDLE, 'rtl', 'replace' );
 
 		wp_set_script_translations(
 			self::HANDLE,

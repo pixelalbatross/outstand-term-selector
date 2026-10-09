@@ -16,6 +16,11 @@
 import { PostTaxonomiesHierarchicalTermSelector } from '@wordpress/editor';
 import { addFilter } from '@wordpress/hooks';
 
+/**
+ * Internal dependencies
+ */
+import './editor.css';
+
 const settings = window.outstandTermSelector || {};
 const slugs = Array.isArray( settings.taxonomies ) ? settings.taxonomies : [];
 
@@ -25,7 +30,11 @@ if ( slugs.length ) {
 		'outstand/term-selector',
 		( OriginalComponent ) => ( props ) => {
 			if ( slugs.includes( props.slug ) ) {
-				return <PostTaxonomiesHierarchicalTermSelector { ...props } />;
+				return (
+					<div className="outstand-term-selector">
+						<PostTaxonomiesHierarchicalTermSelector { ...props } />
+					</div>
+				);
 			}
 
 			return <OriginalComponent { ...props } />;

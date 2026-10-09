@@ -114,6 +114,26 @@ class TermSelectorTest extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Taxonomies hidden from the admin UI are excluded even when they opt in.
+	 *
+	 * @return void
+	 */
+	public function test_taxonomy_without_ui_is_excluded(): void {
+
+		$this->register_taxonomy(
+			'ost_no_ui',
+			[
+				'show_ui'                   => false,
+				'use_hierarchical_selector' => true,
+			]
+		);
+
+		$taxonomies = ( new TermSelector() )->get_taxonomies();
+
+		$this->assertNotContains( 'ost_no_ui', $taxonomies );
+	}
+
+	/**
 	 * The filter can add a taxonomy that did not opt in at registration.
 	 *
 	 * @return void
@@ -177,6 +197,131 @@ class TermSelectorTest extends \WP_UnitTestCase {
 		$taxonomies = ( new TermSelector() )->get_taxonomies();
 
 		$this->assertSame( [], $taxonomies );
+	}
+
+	/**
+	 * The filter cannot force through a taxonomy hidden from the admin UI.
+	 *
+	 * @return void
+	 */
+	public function test_filter_cannot_force_a_taxonomy_without_ui(): void {
+
+		$this->register_taxonomy( 'ost_forced_no_ui', [ 'show_ui' => false ] );
+
+		add_filter(
+			'outstand_term_selector_taxonomies',
+			function ( $slugs ) {
+				$slugs[] = 'ost_forced_no_ui';
+				return $slugs;
+			}
+		);
+
+		$taxonomies = ( new TermSelector() )->get_taxonomies();
+
+		$this->assertSame( [], $taxonomies );
+	}
+
+	/**
+	 * The filter cannot force through a taxonomy hidden from REST.
+	 *
+	 * @return void
+	 */
+	public function test_filter_cannot_force_a_taxonomy_without_rest_support(): void {
+
+		$this->register_taxonomy( 'ost_forced_no_rest', [ 'show_in_rest' => false ] );
+
+		add_filter(
+			'outstand_term_selector_taxonomies',
+			function ( $slugs ) {
+				$slugs[] = 'ost_forced_no_rest';
+				return $slugs;
+			}
+		);
+
+		$taxonomies = ( new TermSelector() )->get_taxonomies();
+
+		$this->assertSame( [], $taxonomies );
+	}
+
+	/**
+	 * Slugs of unregistered taxonomies returned by the filter are discarded.
+	 *
+	 * @return void
+	 */
+	public function test_filter_unregistered_slug_is_discarded(): void {
+
+		$this->register_taxonomy( 'ost_real', [ 'use_hierarchical_selector' => true ] );
+
+		add_filter(
+			'outstand_term_selector_taxonomies',
+			function ( $slugs ) {
+				$slugs[] = 'ost_not_registered';
+				return $slugs;
+			}
+		);
+
+		$taxonomies = ( new TermSelector() )->get_taxonomies();
+
+		$this->assertSame( [ 'ost_real' ], $taxonomies );
+	}
+
+	/**
+	 * Non-string entries returned by the filter are discarded.
+	 *
+	 * @return void
+	 */
+	public function test_filter_non_string_entries_are_discarded(): void {
+
+		$this->register_taxonomy( 'ost_string', [ 'use_hierarchical_selector' => true ] );
+
+		add_filter(
+			'outstand_term_selector_taxonomies',
+			function ( $slugs ) {
+				return array_merge( $slugs, [ 42, null, [ 'ost_string' ], false ] );
+			}
+		);
+
+		$taxonomies = ( new TermSelector() )->get_taxonomies();
+
+		$this->assertSame( [ 'ost_string' ], $taxonomies );
+	}
+
+	/**
+	 * A filter that returns something other than an array opts everything out.
+	 *
+	 * @return void
+	 */
+	public function test_filter_non_array_return_yields_empty_list(): void {
+
+		$this->register_taxonomy( 'ost_overridden', [ 'use_hierarchical_selector' => true ] );
+
+		add_filter( 'outstand_term_selector_taxonomies', '__return_false' );
+
+		$taxonomies = ( new TermSelector() )->get_taxonomies();
+
+		$this->assertSame( [], $taxonomies );
+	}
+
+	/**
+	 * Duplicate slugs returned by the filter are collapsed.
+	 *
+	 * @return void
+	 */
+	public function test_filter_duplicate_slugs_are_collapsed(): void {
+
+		$this->register_taxonomy( 'ost_twice', [ 'use_hierarchical_selector' => true ] );
+
+		add_filter(
+			'outstand_term_selector_taxonomies',
+			function ( $slugs ) {
+				$slugs[] = 'ost_twice';
+				return $slugs;
+			}
+		);
+
+		$taxonomies = ( new TermSelector() )->get_taxonomies();
+
+		$this->assertSame( [ 'ost_twice' ], $taxonomies );
 	}
 
 	/**

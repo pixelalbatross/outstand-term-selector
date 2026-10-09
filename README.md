@@ -6,12 +6,39 @@ Use the hierarchical (checkbox tree) term selector for non-hierarchical taxonomi
 
 WordPress renders a free-text tag input for non-hierarchical taxonomies. That is
 the right control for open vocabularies, where editors are meant to invent terms.
-It is the wrong control for a **closed vocabulary** — a fixed list of regions,
+It is the wrong control for a **curated vocabulary** — a fixed list of regions,
 difficulty levels, or programme types — where editors should pick from what
-already exists instead of silently creating near-duplicate terms.
+already exists, since typing a near-match into a tag input creates a
+near-duplicate term on save.
 
 This plugin swaps in the core `PostTaxonomiesHierarchicalTermSelector` component
-(the checkbox tree used by categories) for the taxonomies you opt in.
+(the checkbox tree used by categories) for the taxonomies you opt in. Editors
+tick existing terms; the parent dropdown in its add-new form is hidden, because
+flat taxonomies cannot store a parent.
+
+### Adding terms
+
+The selector keeps its "Add new" form for users who can create terms in the
+taxonomy (its `edit_terms` capability, which by default editors and
+administrators have). Creating a term is a deliberate action, but it is still
+possible. To fully lock the vocabulary, map `edit_terms` to a capability your
+editors lack when registering the taxonomy:
+
+```php
+register_taxonomy(
+	'region',
+	'post',
+	[
+		// ...
+		'capabilities' => [
+			'edit_terms' => 'manage_options',
+		],
+	]
+);
+```
+
+Editors without that capability can still assign existing terms; the "Add new"
+link does not render for them.
 
 ## Opt-in only
 

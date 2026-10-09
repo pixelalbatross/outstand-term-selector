@@ -1,0 +1,7 @@
+/*
+ * Flat taxonomies cannot store a parent, and the REST API rejects a new term
+ * that has one, so the add-new form hides the parent dropdown.
+ */
+.outstand-term-selector form .components-select-control {
+	display: none;
+}

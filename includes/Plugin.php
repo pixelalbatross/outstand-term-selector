@@ -2,6 +2,8 @@
 
 namespace Outstand\WP\TermSelector;
 
+defined( 'ABSPATH' ) || exit;
+
 class Plugin {
 
 	/**

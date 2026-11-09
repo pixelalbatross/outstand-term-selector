@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.0] - 2026-11-09
 
 ### Added
 
@@ -45,7 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Opt in or out with the `outstand_term_selector_taxonomies` filter, for
   taxonomies registered by third-party code.
 
-[Unreleased]: https://github.com/pixelalbatross/outstand-term-selector/compare/1.0.2...HEAD
+[Unreleased]: https://github.com/pixelalbatross/outstand-term-selector/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/pixelalbatross/outstand-term-selector/compare/1.0.2...1.1.0
 [1.0.2]: https://github.com/pixelalbatross/outstand-term-selector/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/pixelalbatross/outstand-term-selector/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/pixelalbatross/outstand-term-selector/releases/tag/1.0.0

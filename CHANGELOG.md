@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Add radio mode, which replaces the taxonomy panel with radio buttons so
+  editors select one term per post. Radio mode works for flat and hierarchical
+  taxonomies.
+- Opt in to radio mode at registration with the `use_radio_selector` argument
+  to `register_taxonomy()`.
+- Opt in to or out of radio mode with the
+  `outstand_term_selector_radio_taxonomies` filter.
+- Hide the radio mode "Clear" button for a taxonomy with the
+  `outstand_term_selector_radio_show_clear` filter.
+
 ## [1.0.2] - 2026-10-09
 
 ### Security

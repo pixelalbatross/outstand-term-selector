@@ -1,6 +1,7 @@
 # Outstand Term Selector
 
-Use the hierarchical (checkbox tree) term selector for non-hierarchical taxonomies.
+Use the hierarchical (checkbox tree) term selector for non-hierarchical
+taxonomies, or a radio term selector that allows one term per post.
 
 ## Why
 
@@ -88,6 +89,85 @@ add_filter(
 Slugs returned by the filter are validated again, so an unregistered,
 hierarchical, `show_ui => false`, or non-REST taxonomy can never be forced
 through.
+
+## Radio mode
+
+Radio mode replaces the taxonomy panel with a list of radio buttons, so editors
+select one term per post. It works for flat and hierarchical taxonomies. In a
+hierarchical taxonomy, child terms are indented under their parent.
+
+The panel keeps the parts of the core panel that editors know:
+
+- A search box, when the taxonomy has 8 or more terms.
+- A "Clear" button, when the post has a term. It removes the post's terms.
+  Hide it with the `outstand_term_selector_radio_show_clear` filter.
+- The "Add new" form, for users with the `edit_terms` capability. A new term
+  becomes the post's selected term. The parent dropdown shows only for
+  hierarchical taxonomies.
+
+A post can already have several terms, for example terms assigned before the
+taxonomy opted in. The panel shows the first one as selected. When the editor
+selects a term or clicks "Clear", that change replaces all of the post's terms.
+
+Radio mode is a block editor control. The plugin does not limit the number of
+terms that other code, such as the REST API or `wp_set_object_terms()`, assigns
+to a post.
+
+Radio mode is opt-in, with the same rules as the hierarchical selector. A
+taxonomy is ignored unless it is `show_ui` and `show_in_rest`. When a flat
+taxonomy opts in to both modes, radio mode applies.
+
+### 1. At registration
+
+Pass `use_radio_selector`:
+
+```php
+register_taxonomy(
+	'difficulty',
+	'post',
+	[
+		'hierarchical'       => true,
+		'show_ui'            => true,
+		'show_in_rest'       => true,
+		'use_radio_selector' => true,
+	]
+);
+```
+
+### 2. Via filter
+
+Use the `outstand_term_selector_radio_taxonomies` filter. It receives the
+resolved list of slugs and can add to it or remove from it:
+
+```php
+add_filter(
+	'outstand_term_selector_radio_taxonomies',
+	function ( $slugs ) {
+		$slugs[] = 'category';
+		return $slugs;
+	}
+);
+```
+
+Slugs returned by the filter are validated again, so an unregistered,
+`show_ui => false`, or non-REST taxonomy can never be forced through.
+
+### Hide the "Clear" button
+
+Return `false` from `outstand_term_selector_radio_show_clear` to hide the
+"Clear" button for a radio taxonomy. Editors can then change the term but not
+remove it. The filter receives the taxonomy slug:
+
+```php
+add_filter(
+	'outstand_term_selector_radio_show_clear',
+	function ( $show, $taxonomy ) {
+		return 'difficulty' === $taxonomy ? false : $show;
+	},
+	10,
+	2
+);
+```
 
 ## Requirements
 

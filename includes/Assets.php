@@ -50,9 +50,10 @@ class Assets extends BaseModule {
 	public function enqueue_block_editor_scripts(): void {
 
 		// Nothing opted in, so the bundle cannot change anything: skip the request.
-		$taxonomies = $this->term_selector->get_taxonomies();
+		$taxonomies       = $this->term_selector->get_taxonomies();
+		$radio_taxonomies = $this->term_selector->get_radio_taxonomies();
 
-		if ( empty( $taxonomies ) ) {
+		if ( empty( $taxonomies ) && empty( $radio_taxonomies ) ) {
 			return;
 		}
 

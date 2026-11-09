@@ -1,6 +1,6 @@
 {
 	"name": "outstand/term-selector",
-	"description": "Use the hierarchical (checkbox tree) term selector for non-hierarchical taxonomies.",
+	"description": "Use the hierarchical (checkbox tree) term selector for non-hierarchical taxonomies, or a radio term selector that allows one term per post.",
 	"type": "wordpress-plugin",
 	"license": "GPL-3.0-or-later",
 	"authors": [

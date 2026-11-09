@@ -87,13 +87,29 @@ class AssetsTest extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * The resolved taxonomy list is printed before the bundle.
+	 * The script and stylesheet are enqueued when a taxonomy opts in to radio mode only.
+	 *
+	 * @return void
+	 */
+	public function test_script_and_style_are_enqueued_with_radio_opt_in(): void {
+
+		$this->register_taxonomy( 'ost_assets_radio_in', [ 'use_radio_selector' => true ] );
+
+		$this->make_assets( new TermSelector() )->enqueue_block_editor_scripts();
+
+		$this->assertTrue( wp_script_is( Assets::HANDLE, 'enqueued' ) );
+		$this->assertTrue( wp_style_is( Assets::HANDLE, 'enqueued' ) );
+	}
+
+	/**
+	 * The resolved taxonomy lists are printed before the bundle.
 	 *
 	 * @return void
 	 */
 	public function test_settings_are_passed_to_the_bundle(): void {
 
 		$this->register_taxonomy( 'ost_assets_settings', [ 'use_hierarchical_selector' => true ] );
+		$this->register_taxonomy( 'ost_assets_radio_settings', [ 'use_radio_selector' => true ] );
 
 		$term_selector = new TermSelector();
 
@@ -103,7 +119,29 @@ class AssetsTest extends \WP_UnitTestCase {
 		$before = wp_scripts()->get_data( Assets::HANDLE, 'before' );
 
 		$this->assertSame(
-			[ 'var outstandTermSelector = {"taxonomies":["ost_assets_settings"]};' ],
+			[ 'var outstandTermSelector = {"taxonomies":["ost_assets_settings"],"radioTaxonomies":["ost_assets_radio_settings"],"radioClear":{"ost_assets_radio_settings":true}};' ],
+			array_values( array_filter( $before ) )
+		);
+	}
+
+	/**
+	 * An empty "Clear" button map is printed as a JSON object.
+	 *
+	 * @return void
+	 */
+	public function test_empty_radio_clear_map_is_a_json_object(): void {
+
+		$this->register_taxonomy( 'ost_assets_checkbox_only', [ 'use_hierarchical_selector' => true ] );
+
+		$term_selector = new TermSelector();
+
+		$this->make_assets( $term_selector )->enqueue_block_editor_scripts();
+		$term_selector->enqueue_settings();
+
+		$before = wp_scripts()->get_data( Assets::HANDLE, 'before' );
+
+		$this->assertSame(
+			[ 'var outstandTermSelector = {"taxonomies":["ost_assets_checkbox_only"],"radioTaxonomies":[],"radioClear":{}};' ],
 			array_values( array_filter( $before ) )
 		);
 	}

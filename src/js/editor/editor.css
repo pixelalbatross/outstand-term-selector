@@ -5,3 +5,11 @@
 .outstand-term-selector form .components-select-control {
 	display: none;
 }
+
+/*
+ * The radio term selector reuses the RadioControl class names outside a
+ * RadioControl, so its labels do not get the pointer cursor from core.
+ */
+.outstand-radio-term-selector .components-radio-control__label {
+	cursor: pointer;
+}

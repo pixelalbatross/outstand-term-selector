@@ -2,7 +2,7 @@
 /**
  * @wordpress-plugin
  * Plugin Name:       Outstand Term Selector
- * Description:       Use the hierarchical (checkbox tree) term selector for non-hierarchical taxonomies, or a radio term selector that allows one term per post.
+ * Description:       Replace the term input of chosen taxonomies in the block editor with a checkbox tree, or with radio buttons for one term per post.
  * Plugin URI:        https://outstand.site/?utm_source=wp-plugins&utm_medium=outstand-term-selector&utm_campaign=plugin-uri
  * Requires at least: 6.7
  * Requires PHP:      8.2

@@ -1,7 +1,7 @@
 {
 	"name": "outstand-term-selector",
 	"version": "1.1.0",
-	"description": "Use the hierarchical (checkbox tree) term selector for non-hierarchical taxonomies, or a radio term selector that allows one term per post.",
+	"description": "Replace the term input of chosen taxonomies in the block editor with a checkbox tree, or with radio buttons for one term per post.",
 	"contributors": [
 		{
 			"name": "Sérgio Santos",

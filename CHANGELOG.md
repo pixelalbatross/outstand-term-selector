@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Updated the plugin description to say that the plugin replaces the term input
+  of chosen taxonomies with a checkbox tree, or with radio buttons for one term
+  per post.
+
 ## [1.1.0] - 2026-11-09
 
 ### Added
